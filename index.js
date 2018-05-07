@@ -1,13 +1,6 @@
-import { AppRegistry } from 'react-native';
+import { AppRegistry, YellowBox } from 'react-native';
 import React, { Component } from 'react';
-import BaseComponent from './js/BaseComponent';
+import HomeTab from './src/containers/HomeTab';
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
-export default class App extends Component {
-    render() {
-        return (
-            <BaseComponent />
-        );
-    }
-}
-
-AppRegistry.registerComponent('rnWallet', () => App);
+AppRegistry.registerComponent('rnWallet', () => HomeTab);
