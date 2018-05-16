@@ -1,19 +1,43 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Button, StyleSheet, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import bip39 from 'bip39';
+import { randomBytes } from 'react-native-randombytes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import GeneralButton from '../../components/GeneralButton';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonsContainer: {
+        paddingHorizontal: 15,
+        width: '100%',
+    },
+});
 
 class AssetsHomeScreen extends Component {
+    state = {
+        mnemonicText: 'mnemonic:',
+        seedText:'seed:'
+    }
     static navigationOptions = {
         headerTitle: "Assets",
     };
     render() {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Button
-                    title="Go to Detail"
-                    color='skyblue'
-                    onPress={() => this.props.navigation.navigate('AssetsDetail')}
+            <View style={styles.container}>
+                <Text>{this.state.mnemonicText}</Text>
+                <GeneralButton
+                    style={styles.buttonsContainer}
+                    text='Create mnemonic'
+                    onPress={() => {
+                        this.setState(previousState => {
+                            return { mnemonicText: previousState.mnemonicText + bip39.generateMnemonic("", randomBytes) }
+                        });
+                    }}
                 />
             </View>
         );
@@ -21,20 +45,20 @@ class AssetsHomeScreen extends Component {
 }
 
 class AssetsDetailScreen extends Component {
-    static navigationOptions = ({navigation}) => ({
+    static navigationOptions = ({ navigation }) => ({
         headerTitle: "AssetsDetail",
-        headerLeft:(
-            <Ionicons.Button 
-            name="ios-arrow-back"
-            size={25}
-            color='skyblue'
-            backgroundColor = 'rgba(255,255,255,0)'
-            onPress={() => navigation.goBack()}
+        headerLeft: (
+            <Ionicons.Button
+                name="ios-arrow-back"
+                size={25}
+                color='skyblue'
+                backgroundColor='rgba(255,255,255,0)'
+                onPress={() => navigation.goBack()}
             />
         ),
-        tabBarVisible:false,
+        tabBarVisible: false,
     })
-    
+
     render() {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

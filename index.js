@@ -1,6 +1,7 @@
 import { AppRegistry, YellowBox } from 'react-native';
 import React, { Component } from 'react';
 import HomeTab from './src/containers/HomeTab';
+import './shim';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 AppRegistry.registerComponent('rnWallet', () => HomeTab);
