@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { View, Button, StyleSheet, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import bip39 from 'bip39';
-import { randomBytes } from 'react-native-randombytes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import GeneralButton from '../../components/GeneralButton';
-
+import WalletProvider from '../../utils/WalletProvider';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -21,12 +19,15 @@ const styles = StyleSheet.create({
 class AssetsHomeScreen extends Component {
     state = {
         mnemonicText: 'mnemonic:',
-        seedText:'seed:'
+        seedText: 'seed:'
     }
     static navigationOptions = {
         headerTitle: "Assets",
     };
     render() {
+        const mnemonic = WalletProvider.generateMnemonic()
+        const address = WalletProvider.restoreWalletWithMnemonic(mnemonic)
+        console.log('mnemonic:', mnemonic, 'address:', address)
         return (
             <View style={styles.container}>
                 <Text>{this.state.mnemonicText}</Text>
@@ -35,7 +36,7 @@ class AssetsHomeScreen extends Component {
                     text='Create mnemonic'
                     onPress={() => {
                         this.setState(previousState => {
-                            return { mnemonicText: previousState.mnemonicText + bip39.generateMnemonic("", randomBytes) }
+                            return { mnemonicText: previousState.mnemonicText + bip39.generateMnemonic('', randomBytes) }
                         });
                     }}
                 />

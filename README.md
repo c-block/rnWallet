@@ -12,7 +12,9 @@ Then do the following at the terminal.
 
 If you do not install node. You may not be able to use npm. 
 Homebrew can help you install the node environment.
+
 brew install node  
+
 Now you can go on.
 
 
