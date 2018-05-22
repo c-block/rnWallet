@@ -21,4 +21,8 @@ export default class WalletProvider {
         return ethRoot.getWallet().getChecksumAddressString()
     }
 
+    static fromMnemonic(mnemonic,passWoard){
+        return this.restoreWalletWithMnemonic(mnemonic,passWoard)
+    }
+
 }

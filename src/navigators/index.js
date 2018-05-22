@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { TabNavigator, TabBarBottom, StackNavigator } from 'react-navigation';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import AssetsContainer from './assets/AssetsContainer'
-import DiscoveryContainer from './discovery/DiscoveryContainer'
-import MarkedContainer from './marked/MarkedContainer'
-import MineContainer from './mine/MineContainer'
+import React from 'react';
+import { StackNavigator, TabNavigator, TabBarBottom, SwitchNavigator } from 'react-navigation';
+import {
+    LoginScreen,
+    PassWordScreen,
+    AssetsContainer,
+    DiscoveryContainer,
+    MineContainer,
+    MarkedContainer,
+} from '../containers';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default class HomeTab extends Component {
-    render() {
-        return <Tab />;
-    }
-}
 
 const TabRouteConfigs = {
     Assets: { screen: AssetsContainer },
@@ -52,7 +50,31 @@ const TabNavigatorConfig = {
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
-    lazy:true,
+    lazy: true,
 };
 
-const Tab = TabNavigator(TabRouteConfigs, TabNavigatorConfig);
+const HomeTab = TabNavigator(TabRouteConfigs, TabNavigatorConfig);
+
+const CreateWalletNavigator = StackNavigator(
+    {
+        Login: { screen: LoginScreen },
+        PassWord: { screen: PassWordScreen },
+    },
+    {
+        initialRouteName: 'Login',
+        headerMode: 'none',
+        cardStyle: {
+            backgroundColor: '#181724',
+        }
+    }
+);
+
+export default SwitchNavigator(
+    {
+        CreateWallet: CreateWalletNavigator,
+        Home: HomeTab,
+    },
+    {
+        initialRouteName: 'CreateWallet',
+    }
+);
