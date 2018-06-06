@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import GeneralButton from '../../components/generalButton';
-import WalletProvider from '../../utils/WalletProvider';
+import walletUtils from '../../utils/walletUtils';
 import { connect } from 'react-redux';
 import * as LoginAction from '../../config/action/LoginAction'
 
@@ -17,6 +17,13 @@ const styles = StyleSheet.create({
     },
 });
 class PassWordScreen extends Component {
+
+    createWallet(){
+        walletUtils.generateMnemonic().then((mnemonic)=>{
+            this.props.createWallet(mnemonic)
+        })
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -26,7 +33,7 @@ class PassWordScreen extends Component {
                         onPress={
                             () => {
                                 this.props.navigation.navigate('Home');
-                                this.props.createWallet();
+                                this.createWallet();
                             }}
                         text='Create mnemonic'
                     />
@@ -36,12 +43,9 @@ class PassWordScreen extends Component {
         )
     }
 }
-const mapStateToProps = state => ({
-    mnemonic: state.createMnemonic.mnemonic,
-});
 
 const mapDispatchToProps = dispatch => ({
-    createWallet: () => dispatch(LoginAction.createMnemonic(WalletProvider.generateMnemonic(), '123')),
+    createWallet: (mnemonic) => dispatch(LoginAction.createMnemonic(mnemonic)),
 });
 
 export default connect(null, mapDispatchToProps)(PassWordScreen)

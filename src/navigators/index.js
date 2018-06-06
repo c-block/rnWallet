@@ -7,6 +7,7 @@ import {
     DiscoveryContainer,
     MineContainer,
     MarkedContainer,
+    walletTest,
 } from '../containers';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -73,8 +74,9 @@ export default SwitchNavigator(
     {
         CreateWallet: CreateWalletNavigator,
         Home: HomeTab,
+        Test: walletTest,
     },
     {
-        initialRouteName: 'CreateWallet',
+        initialRouteName: 'Test',
     }
 );

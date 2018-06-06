@@ -1,7 +1,5 @@
 export default class Jsonrpc {
-    constructor() {
-        messageId: 0
-    }
+    static messageId = 0;
 
     static toPayload(method, params) {
         if (!method) {
