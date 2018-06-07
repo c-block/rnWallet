@@ -10,18 +10,14 @@ import {
   Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import HDWallet from '../../utils/HDWallet';
-import walletUtils from '../../utils/walletUtils';
+import HDWallet from 'react-native-hdwallet';
+import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
+import { connect } from 'react-redux';
+import * as TestAction from '../../config/action/TestAction'
 
 //const mnemonic = 'hood prison brick crane vault must define country three banner clip ridge'
 
-export default class walletTest extends Component {
-  state = {
-    mnemonic: '',
-    seed: '',
-    path: '',
-    address: ''
-  }
+class walletTest extends Component {
   createAddress = () => {
     walletUtils.generateMnemonic().then((data) => {
       const seed = walletUtils.mnemonicToSeed(data)
@@ -30,19 +26,26 @@ export default class walletTest extends Component {
       const derivePath = "m/44'/60'/0'/0/0"
       hdwallet.setDerivePath(derivePath)
       const checksumAddress = hdwallet.getChecksumAddressString()
-      this.setState({
-        mnemonic: data,
-        seed: seedHex,
-        path: derivePath,
-        address: checksumAddress
-      })
+      this.props.walletTest(data, checksumAddress, derivePath, seedHex)
     }, (error) => {
       Alert.alert(
         'error',
-        'mnemonic' + error.toString
+        'mnemonic' + error.toString()
       )
     })
   }
+
+  rpcTest = () => {
+    if (this.props.address == '') {
+      Alert.alert(
+        'warning!',
+        'you need to generate the address first'
+      )
+    } else {
+      this.props.navigation.navigate('RpcTest')
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -61,7 +64,7 @@ export default class walletTest extends Component {
                 placeholder="12 word"
                 placeholderTextColor="#E5E5E5"
                 style={styles.input}
-                value={this.state.mnemonic}
+                value={this.props.mnemonic}
                 multiline={true}
               />
             </View>
@@ -75,7 +78,7 @@ export default class walletTest extends Component {
                 placeholder="..."
                 placeholderTextColor="#E5E5E5"
                 style={styles.input}
-                value={this.state.seed}
+                value={this.props.seed}
                 multiline={true}
               />
             </View>
@@ -89,7 +92,7 @@ export default class walletTest extends Component {
                 placeholder="m/60'/44'/0'/0/0"
                 placeholderTextColor="#E5E5E5"
                 style={styles.input}
-                value={this.state.path}
+                value={this.props.path}
                 multiline={true}
               />
             </View>
@@ -103,7 +106,7 @@ export default class walletTest extends Component {
                 placeholder="0x..."
                 placeholderTextColor="#E5E5E5"
                 style={styles.input}
-                value={this.state.address}
+                value={this.props.address}
                 multiline={true}
               />
             </View>
@@ -113,7 +116,15 @@ export default class walletTest extends Component {
               style={styles.button}
               onPress={this.createAddress}
             >
-              <Text style={{ fontSize: 15, color: '#E5E5E5', fontWeight: 'bold' }}>create address</Text>
+              <Text style={styles.text}>create address</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonView}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.rpcTest}
+            >
+              <Text style={styles.text}>rpc test</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
@@ -127,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
+    //paddingBottom: 15,
     marginTop: 20
   },
   element: {
@@ -150,17 +161,35 @@ const styles = StyleSheet.create({
     color: '#40E0D0',
     flex: 1,
     flexGrow: 1,
-    fontSize: 15,
+    fontSize: 18,
   },
   buttonView: {
     paddingHorizontal: 20,
-    paddingTop: 30,
-    marginTop: 10
+    paddingTop: 20,
+    marginTop: 5
   },
   button: {
     alignItems: 'center',
     backgroundColor: '#40E0D0',
     borderRadius: 8,
     paddingVertical: 20,
+  },
+  text: {
+    fontSize: 15,
+    color: '#E5E5E5',
+    fontWeight: 'bold'
   }
 });
+
+const mapStatToProps = state => ({
+  mnemonic: state.Test.mnemonic,
+  address: state.Test.address,
+  path: state.Test.path,
+  seed: state.Test.seed,
+});
+
+const mapDispatchToProps = dispatch => ({
+  walletTest: (mnemonic, address, path, seed) => dispatch(TestAction.walletTest(mnemonic, address, path, seed)),
+});
+
+export default connect(mapStatToProps, mapDispatchToProps)(walletTest)

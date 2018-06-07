@@ -8,6 +8,7 @@ import {
     MineContainer,
     MarkedContainer,
     walletTest,
+    rpcTest,
 } from '../containers';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -70,11 +71,22 @@ const CreateWalletNavigator = StackNavigator(
     }
 );
 
+const TestNavigator = StackNavigator(
+    {
+        WalletTest: { screen: walletTest },
+        RpcTest: { screen: rpcTest },
+    },
+    {
+        initialRouteName: 'WalletTest',
+        headerMode:'none',
+    }
+);
+
 export default SwitchNavigator(
     {
         CreateWallet: CreateWalletNavigator,
         Home: HomeTab,
-        Test: walletTest,
+        Test: TestNavigator,
     },
     {
         initialRouteName: 'Test',

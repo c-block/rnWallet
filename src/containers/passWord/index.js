@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import GeneralButton from '../../components/generalButton';
-import walletUtils from '../../utils/walletUtils';
+import walletUtils from 'react-native-hdwallet/src/utils/walletUtils';
 import { connect } from 'react-redux';
 import * as LoginAction from '../../config/action/LoginAction'
 

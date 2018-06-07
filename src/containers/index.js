@@ -5,6 +5,7 @@ import MineContainer from './mine'
 import LoginScreen from './login'
 import PassWordScreen from './passWord'
 import walletTest from './test/walletTest'
+import rpcTest from './test/rpcTest'
 
 export {
     AssetsContainer,
@@ -14,4 +15,5 @@ export {
     LoginScreen,
     PassWordScreen,
     walletTest,
+    rpcTest,
 }

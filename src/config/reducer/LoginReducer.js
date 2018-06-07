@@ -1,11 +1,11 @@
 import * as types from '../action/ActionType'
 
-const defaultStat = {
+const defaultState = {
     mnemonic: '',
     password: '',
 }
 
-export default function createWallet(state = defaultStat, action) {
+export default function createWallet(state = defaultState, action) {
     switch (action.type) {
         case types.SET_MNEMONIC:
             return {
